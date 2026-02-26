@@ -82,7 +82,7 @@ init();
 animate();
 
 // --- Authentication Logic ---
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'http://localhost:5005/api/auth';
 
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
