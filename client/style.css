@@ -1,0 +1,255 @@
+/* General Setup */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #050508;
+    /* Very dark/black background to match particle screenshot */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #fefefe;
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.wrapper {
+    position: relative;
+    z-index: 2;
+    /* above particles */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    /* Variables matching the screenshot exactly */
+    --input-focus: #2d8cf0;
+    /* Bright blue for slider */
+    --font-color: #fefefe;
+    --font-color-sub: #7e7e7e;
+    --bg-color: #111;
+    --main-color: #fefefe;
+}
+
+.card-switch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.toggle {
+    display: none;
+}
+
+/* Switch */
+.switch {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 24px;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+
+.card-side::before {
+    position: absolute;
+    content: 'Log in';
+    right: 100%;
+    margin-right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: underline;
+    color: var(--font-color);
+    font-weight: 700;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.card-side::after {
+    position: absolute;
+    content: 'Sign up';
+    left: 100%;
+    margin-left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: var(--font-color);
+    font-weight: 700;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.slider {
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px 0px var(--main-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    transition: 0.3s;
+}
+
+.slider:before {
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    left: -2px;
+    bottom: -2px;
+    background-color: #2ecc71;
+    /* bright green */
+    box-shadow: 0 3px 0 var(--main-color);
+    transition: 0.3s;
+}
+
+.toggle:checked~.switch .slider {
+    background-color: var(--input-focus);
+}
+
+.toggle:checked~.switch .slider:before {
+    transform: translateX(36px);
+}
+
+.toggle:checked~.switch .card-side:before {
+    text-decoration: none;
+}
+
+.toggle:checked~.switch .card-side:after {
+    text-decoration: underline;
+}
+
+/* Card inner container */
+.flip-card__inner {
+    width: 300px;
+    height: 380px;
+    position: relative;
+    background-color: transparent;
+    perspective: 1000px;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.toggle:checked~.flip-card__inner {
+    transform: rotateY(180deg);
+}
+
+/* Card faces */
+.flip-card__front,
+.flip-card__back {
+    padding: 30px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background: var(--bg-color);
+    gap: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    box-shadow: 6px 6px 0px var(--main-color);
+    /* Exact match to image */
+}
+
+.flip-card__back {
+    transform: rotateY(180deg);
+}
+
+.flip-card__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.title {
+    margin: 10px 0 20px 0;
+    font-size: 28px;
+    font-weight: 900;
+    text-align: center;
+    color: var(--main-color);
+}
+
+.flip-card__input {
+    width: 100%;
+    max-width: 260px;
+    height: 44px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px 0px var(--main-color);
+    /* Exact match to inputs in image */
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.flip-card__input::placeholder {
+    color: var(--font-color-sub);
+    opacity: 0.8;
+}
+
+.flip-card__input:focus {
+    border-color: var(--input-focus);
+}
+
+.flip-card__btn {
+    margin-top: 15px;
+    width: 120px;
+    height: 44px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px 0px var(--main-color);
+    /* Match image button */
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--font-color);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+/* Hard press animation */
+.flip-card__btn:active {
+    box-shadow: 0px 0px 0px var(--main-color);
+    transform: translate(4px, 4px);
+}

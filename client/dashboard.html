@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Welcome</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--main-color);
+            box-shadow: 6px 6px 0px var(--main-color);
+            gap: 20px;
+            text-align: center;
+        }
+        .dashboard-container h1 {
+            color: var(--main-color);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .dashboard-container p {
+            color: var(--font-color-sub);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            background-color: #ff4757;
+            border-color: #ff4757;
+            box-shadow: 4px 4px 0px #ff4757;
+            margin-top: 20px;
+        }
+        .logout-btn:active {
+            box-shadow: 0px 0px 0px #ff4757;
+            transform: translate(4px, 4px);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="wrapper">
+        <div class="dashboard-container" id="dashboard" style="display: none;">
+            <h1>Dashboard</h1>
+            <p id="welcome-message">Loading user info...</p>
+            <button id="logout-btn" class="flip-card__btn logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <!-- Minimal script directly inline for dashboard protection logic -->
+    <script>
+        // Use our particle background engine existing logic
+        // We'll dynamically inject the particle generator
+        const script = document.createElement('script');
+        script.src = "script.js";
+        document.body.appendChild(script);
+
+        // Dashboard Authentication Check
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+
+            if (!token) {
+                alert('Access denied. Please login first.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // User is authenticated
+            document.getElementById('dashboard').style.display = 'flex';
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                document.getElementById('welcome-message').innerText = `Welcome back, ${user.name}! (${user.email})`;
+            }
+
+            // Logout Logic
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                alert('Successfully logged out');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
